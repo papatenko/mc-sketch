@@ -1,15 +1,21 @@
-for (let index = 0; index < 256; index++) {
-    createCanvas()
-}
+createCanvas()
+createResetButton()
 
 function createCanvas(){
+    for (let index = 0; index < 256; index++) {
+        createDot()
+    }
+}
+
+function createDot(){
     // Create a new dot element
-    var dot = document.createElement("dot");
+    var dot = document.createElement("div");
 
     // Set the dot's style properties
     dot.style.width = "25px"
     dot.style.height = "25px"
     dot.style.backgroundColor = "white"
+    dot.id = "dot"
 
     // Added event listener that would turn each dot into a random color
     dot.addEventListener("mouseover", () => {
@@ -22,4 +28,23 @@ function createCanvas(){
 
     // Add the dot to the page
     document.getElementById('canvas').appendChild(dot);
+}
+
+function createResetButton() {
+    var resetButton = document.createElement("button")
+
+    resetButton.innerText = "reset the dang square"
+
+    resetButton.addEventListener("mousedown", () => resetCanvas())
+
+    document.body.appendChild(resetButton);
+}
+
+function resetCanvas(){
+    const canvas = document.querySelector("[id=canvas]")
+
+    while (canvas.firstChild) {
+        canvas.removeChild(canvas.firstChild);
+    }
+    createCanvas()
 }
