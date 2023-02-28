@@ -2,12 +2,10 @@
 var ColorPicked="rainbow"
 
 // Calling Creaction Functions
-
 createCanvas();
 createButtons();
 
 // Create UI
-
 function createCanvas() {
     for (let index = 0; index < 256; index++) {
         createDot();
@@ -16,6 +14,7 @@ function createCanvas() {
 function createButtons() {
     createResetButton();
     createColorPicker();
+    createRanbowColorButton();
 }
 
 function createDot() {
@@ -46,11 +45,18 @@ function createColorPicker() {
     var colorPicker = document.createElement("input");
     colorPicker.onchange = "colorSelected(this)";
     colorPicker.type = "color";
-    colorPicker.id = "colorPicker";
 
     colorPicker.onchange = event => {ColorPicked = event.target.value} 
 
     document.body.appendChild(colorPicker);
+}
+function createRanbowColorButton(){
+    var rainbowColorButton = document.createElement("button");
+    rainbowColorButton .innerText = "make me rainbow woohoo";
+
+    rainbowColorButton.addEventListener("mousedown", () => ColorPicked="rainbow");
+
+    document.body.appendChild(rainbowColorButton);
 }
 
 // Managers
@@ -66,9 +72,6 @@ function colorManager(colorPicked) {
     return "rgb(" + red + "," + green + "," + blue + ")";
 }
 
-
-
-
 // Actions
 function resetCanvas() {
     const canvas = document.querySelector("[id=canvas]");
@@ -78,7 +81,3 @@ function resetCanvas() {
     }
     createCanvas();
 }
-
-// Buttons
-
-
