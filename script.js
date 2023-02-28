@@ -14,7 +14,8 @@ function createCanvas() {
 }
 function createButtons() {
     createResetButton();
-    createColorPicker();
+    createBrushColorPicker();
+    createBackgroundColorPicker();
     createRanbowColorButton();
     createEraserButton();
 }
@@ -43,14 +44,14 @@ function createResetButton() {
 
     document.body.appendChild(changeColorButton);
 }
-function createColorPicker() {
-    var colorPicker = document.createElement("input");
-    colorPicker.onchange = "colorSelected(this)";
-    colorPicker.type = "color";
+function createBrushColorPicker() {
+    var brushColorPicker = document.createElement("input");
+    brushColorPicker.onchange = "colorSelected(this)";
+    brushColorPicker.type = "color";
 
-    colorPicker.onchange = event => {ColorPicked = event.target.value} 
+    brushColorPicker.onchange = event => {ColorPicked = event.target.value} 
 
-    document.body.appendChild(colorPicker);
+    document.body.appendChild(brushColorPicker);
 }
 function createRanbowColorButton(){
     var rainbowColorButton = document.createElement("button");
@@ -59,6 +60,18 @@ function createRanbowColorButton(){
     rainbowColorButton.addEventListener("mousedown", () => ColorPicked="rainbow");
 
     document.body.appendChild(rainbowColorButton);
+}
+function createBackgroundColorPicker() {
+    var backgroundColorPicker = document.createElement("input");
+    backgroundColorPicker.onchange = "colorSelected(this)";
+    backgroundColorPicker.type = "color";
+
+    backgroundColorPicker.onchange = event => {
+        BackgroundColor = event.target.value
+        resetCanvas();
+    } 
+
+    document.body.appendChild(backgroundColorPicker);
 }
 function createEraserButton(){
     var eraserButton = document.createElement("button");
