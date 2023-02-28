@@ -1,6 +1,8 @@
 createCanvas();
 createButtons();
 
+// Create UI
+
 function createCanvas() {
     for (let index = 0; index < 256; index++) {
         createDot();
@@ -22,24 +24,45 @@ function createDot() {
     dot.id = "dot";
 
     // Added event listener that would turn each dot into a random color
-    dot.addEventListener("mouseover", () => {
-        var red = Math.floor(Math.random() * 255);
-        var green = Math.floor(Math.random() * 255);
-        var blue = Math.floor(Math.random() * 255);
-
-        dot.style.backgroundColor = "rgb(" + red + "," + green + "," + blue + ")";
-    });
+    dot.addEventListener("mouseover", () => { dot.style.backgroundColor = colorManager()});
 
     // Add the dot to the page
     document.getElementById("canvas").appendChild(dot);
 }
-// Buttons
 
+// Managers
+function colorManager() {
+
+    console.log(document.getElementById("colorPicker").target.value)
+
+    return document.getElementById("colorPicker").target.value;
+
+
+    var red = Math.floor(Math.random() * 255);
+    var green = Math.floor(Math.random() * 255);
+    var blue = Math.floor(Math.random() * 255);
+
+    return "rgb(" + red + "," + green + "," + blue + ")";
+
+}
+
+
+
+
+// Actions
+function resetCanvas() {
+    const canvas = document.querySelector("[id=canvas]");
+
+    while (canvas.firstChild) {
+        canvas.removeChild(canvas.firstChild);
+    }
+    createCanvas();
+}
+
+// Buttons
 function createResetButton() {
     var changeColorButton = document.createElement("button");
-
     changeColorButton.innerText = "reset the dang square";
-
     changeColorButton.addEventListener("mousedown", () => resetCanvas());
 
     document.body.appendChild(changeColorButton);
@@ -48,19 +71,16 @@ function createColorPicker() {
     var colorPicker = document.createElement("input");
     colorPicker.onchange = "colorSelected(this)";
     colorPicker.type = "color";
+    colorPicker.id = "colorPicker";
+
+    // colorPicker.addEventListener("input", updateFirst, false);
+    colorPicker.addEventListener("change", watchColorPicker, false);
 
     document.body.appendChild(colorPicker);
 }
 
-// Actions
-
-function chooseColor() {}
-
-function resetCanvas() {
-    const canvas = document.querySelector("[id=canvas]");
-
-    while (canvas.firstChild) {
-        canvas.removeChild(canvas.firstChild);
-    }
-    createCanvas();
+function watchColorPicker(event) {
+    document.querySelectorAll("p").forEach((p) => {
+        document.getElementById("header").style.color = event.target.value;
+    });
 }
