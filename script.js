@@ -34,7 +34,6 @@ function createDot() {
 function colorManager() {
 
     console.log(document.getElementById("colorPicker").target.value)
-
     return document.getElementById("colorPicker").target.value;
 
 
@@ -74,7 +73,11 @@ function createColorPicker() {
     colorPicker.id = "colorPicker";
 
     // colorPicker.addEventListener("input", updateFirst, false);
-    colorPicker.addEventListener("change", watchColorPicker, false);
+    // colorPicker.addEventListener("change", watchColorPicker, false);
+    colorPicker.onchange = e => {
+
+        console.log(e.target.value)
+    } 
 
     document.body.appendChild(colorPicker);
 }
