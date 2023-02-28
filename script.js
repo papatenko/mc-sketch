@@ -1,5 +1,6 @@
 // Global Variables
 var ColorPicked="rainbow"
+var BackgroundColor="white"
 
 // Calling Creaction Functions
 createCanvas();
@@ -15,6 +16,7 @@ function createButtons() {
     createResetButton();
     createColorPicker();
     createRanbowColorButton();
+    createEraserButton();
 }
 
 function createDot() {
@@ -24,7 +26,7 @@ function createDot() {
     // Set the dot's style properties
     dot.style.width = "25px";
     dot.style.height = "25px";
-    dot.style.backgroundColor = "white";
+    dot.style.backgroundColor = BackgroundColor;
     dot.id = "dot";
 
     // Added event listener that would turn each dot into a random color
@@ -58,9 +60,20 @@ function createRanbowColorButton(){
 
     document.body.appendChild(rainbowColorButton);
 }
+function createEraserButton(){
+    var eraserButton = document.createElement("button");
+    eraserButton .innerText = "make me erase woohoo";
+
+    eraserButton.addEventListener("mousedown", () => ColorPicked="erase");
+
+    document.body.appendChild(eraserButton);
+}
 
 // Managers
 function colorManager(colorPicked) {
+    if (colorPicked == "erase") {
+        return BackgroundColor;
+    }
     if (colorPicked != "rainbow") {
         return colorPicked; 
     }
