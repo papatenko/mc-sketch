@@ -1,10 +1,14 @@
 createCanvas()
-createResetButton()
+createButtons()
 
 function createCanvas(){
     for (let index = 0; index < 256; index++) {
         createDot()
     }
+}
+function createButtons(){
+    createResetButton()
+    createColorPicker()
 }
 
 function createDot(){
@@ -30,14 +34,25 @@ function createDot(){
     document.getElementById('canvas').appendChild(dot);
 }
 
+// Buttons
+
 function createResetButton() {
-    var resetButton = document.createElement("button")
+    var changeColorButton = document.createElement("button")
 
-    resetButton.innerText = "reset the dang square"
+    changeColorButton.innerText = "reset the dang square"
 
-    resetButton.addEventListener("mousedown", () => resetCanvas())
+    changeColorButton.addEventListener("mousedown", () => resetCanvas())
 
-    document.body.appendChild(resetButton);
+    document.body.appendChild(changeColorButton);
+}
+function createColorPicker(){
+
+}
+
+// Actions
+
+function chooseColor(){
+
 }
 
 function resetCanvas(){
