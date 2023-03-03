@@ -1,6 +1,6 @@
 // Global Variables
-var ColorPicked="rainbow"
-var BackgroundColor="white"
+var ColorPicked = "rainbow";
+var BackgroundColor = "white";
 
 // Calling Creaction Functions
 createCanvas();
@@ -21,19 +21,17 @@ function createButtons() {
 }
 
 function createDot() {
-    // Create a new dot element
     var dot = document.createElement("div");
 
-    // Set the dot's style properties
     dot.style.width = "25px";
     dot.style.height = "25px";
     dot.style.backgroundColor = BackgroundColor;
-    dot.id = "dot";
+    dot.class = "dot";
 
-    // Added event listener that would turn each dot into a random color
-    dot.addEventListener("mouseover", () => { dot.style.backgroundColor = colorManager(ColorPicked)});
+    dot.addEventListener("mouseover", () => {
+        dot.style.backgroundColor = colorManager(ColorPicked);
+    });
 
-    // Add the dot to the page
     document.getElementById("canvas").appendChild(dot);
 }
 
@@ -42,55 +40,59 @@ function createResetButton() {
     changeColorButton.innerText = "reset the dang square";
     changeColorButton.addEventListener("mousedown", () => resetCanvas());
 
-    document.body.appendChild(changeColorButton);
+    document.getElementById("buttons").appendChild(changeColorButton);
 }
 function createBrushColorPicker() {
     var brushColorPicker = document.createElement("input");
     brushColorPicker.onchange = "colorSelected(this)";
     brushColorPicker.type = "color";
 
-    brushColorPicker.onchange = event => {ColorPicked = event.target.value} 
+    brushColorPicker.onchange = (event) => {
+        ColorPicked = event.target.value;
+    };
 
-    document.body.appendChild(brushColorPicker);
+    document.getElementById("buttons").appendChild(brushColorPicker);
 }
-function createRanbowColorButton(){
+function createRanbowColorButton() {
     var rainbowColorButton = document.createElement("button");
-    rainbowColorButton .innerText = "make me rainbow woohoo";
+    rainbowColorButton.innerText = "make me rainbow woohoo";
 
-    rainbowColorButton.addEventListener("mousedown", () => ColorPicked="rainbow");
+    rainbowColorButton.addEventListener(
+        "mousedown",
+        () => (ColorPicked = "rainbow")
+    );
 
-    document.body.appendChild(rainbowColorButton);
+    document.getElementById("buttons").appendChild(rainbowColorButton);
 }
 function createBackgroundColorPicker() {
     var backgroundColorPicker = document.createElement("input");
     backgroundColorPicker.onchange = "colorSelected(this)";
     backgroundColorPicker.type = "color";
 
-    backgroundColorPicker.onchange = event => {
-        BackgroundColor = event.target.value
+    backgroundColorPicker.onchange = (event) => {
+        BackgroundColor = event.target.value;
         resetCanvas();
-    } 
+    };
 
-    document.body.appendChild(backgroundColorPicker);
+    document.getElementById("buttons").appendChild(backgroundColorPicker);
 }
-function createEraserButton(){
+function createEraserButton() {
     var eraserButton = document.createElement("button");
-    eraserButton .innerText = "make me erase woohoo";
+    eraserButton.innerText = "make me erase woohoo";
 
-    eraserButton.addEventListener("mousedown", () => ColorPicked="erase");
+    eraserButton.addEventListener("mousedown", () => (ColorPicked = "erase"));
 
-    document.body.appendChild(eraserButton);
+    document.getElementById("buttons").appendChild(eraserButton);
 }
 
-// Managers
 function colorManager(colorPicked) {
-    if (colorPicked == "erase") {
-        return BackgroundColor;
-    }
-    if (colorPicked != "rainbow") {
-        return colorPicked; 
-    }
+    if (colorPicked == "erase") 
+        return BackgroundColor
 
+    if (colorPicked != "rainbow") 
+        return colorPicked
+
+    // Generate random color and return it
     var red = Math.floor(Math.random() * 255);
     var green = Math.floor(Math.random() * 255);
     var blue = Math.floor(Math.random() * 255);
@@ -100,10 +102,10 @@ function colorManager(colorPicked) {
 
 // Actions
 function resetCanvas() {
-    const canvas = document.querySelector("[id=canvas]");
+    var canvas = document.querySelector("#canvas")
+    var dots = canvas.querySelectorAll("div")
 
-    while (canvas.firstChild) {
-        canvas.removeChild(canvas.firstChild);
+    for (let index = 0; index < dots.length; index++) {
+        dots[index].style.backgroundColor = BackgroundColor
     }
-    createCanvas();
 }
