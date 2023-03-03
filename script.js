@@ -1,17 +1,24 @@
 // Global Variables
 var ColorPicked = "rainbow";
 var BackgroundColor = "white";
+var ButtonsDiv = document.getElementById("buttons")
+var CanvasDiv = document.getElementById("canvas")
 
 // Calling Creaction Functions
-createCanvas();
+createCanvas(16,25);
 createButtons();
 
 // Create UI
-function createCanvas() {
-    for (let index = 0; index < 256; index++) {
-        createDot();
+function createCanvas(numOfDots, dotSize) {
+    // Y-axis
+    for (let index = 0; index < numOfDots; index++) {
+        // X-axis
+        for (let index = 0; index < numOfDots; index++) {
+            createDot(dotSize);
+        }
     }
 }
+
 function createButtons() {
     createResetButton();
     createBrushColorPicker();
@@ -20,11 +27,11 @@ function createButtons() {
     createEraserButton();
 }
 
-function createDot() {
+function createDot(size) {
     var dot = document.createElement("div");
 
-    dot.style.width = "25px";
-    dot.style.height = "25px";
+    dot.style.width = size+"px";
+    dot.style.height = size+"px";
     dot.style.backgroundColor = BackgroundColor;
     dot.class = "dot";
 
@@ -32,7 +39,7 @@ function createDot() {
         dot.style.backgroundColor = colorManager(ColorPicked);
     });
 
-    document.getElementById("canvas").appendChild(dot);
+    CanvasDiv.appendChild(dot);
 }
 
 function createResetButton() {
@@ -40,7 +47,7 @@ function createResetButton() {
     changeColorButton.innerText = "reset the dang square";
     changeColorButton.addEventListener("mousedown", () => resetCanvas());
 
-    document.getElementById("buttons").appendChild(changeColorButton);
+    ButtonsDiv.appendChild(changeColorButton);
 }
 function createBrushColorPicker() {
     var brushColorPicker = document.createElement("input");
@@ -51,18 +58,15 @@ function createBrushColorPicker() {
         ColorPicked = event.target.value;
     };
 
-    document.getElementById("buttons").appendChild(brushColorPicker);
+    ButtonsDiv.appendChild(brushColorPicker);
 }
 function createRanbowColorButton() {
     var rainbowColorButton = document.createElement("button");
     rainbowColorButton.innerText = "make me rainbow woohoo";
 
-    rainbowColorButton.addEventListener(
-        "mousedown",
-        () => (ColorPicked = "rainbow")
-    );
+    rainbowColorButton.addEventListener("mousedown", () => ColorPicked = "rainbow");
 
-    document.getElementById("buttons").appendChild(rainbowColorButton);
+    ButtonsDiv.appendChild(rainbowColorButton);
 }
 function createBackgroundColorPicker() {
     var backgroundColorPicker = document.createElement("input");
@@ -70,42 +74,58 @@ function createBackgroundColorPicker() {
     backgroundColorPicker.type = "color";
 
     backgroundColorPicker.onchange = (event) => {
-        BackgroundColor = event.target.value;
-        resetCanvas();
-    };
+        var backgroundColorPicked = event.target.value
+        changeBackground(backgroundColorPicked)
+        BackgroundColor = htmlToRGB(backgroundColorPicked)
+    }
 
-    document.getElementById("buttons").appendChild(backgroundColorPicker);
+    ButtonsDiv.appendChild(backgroundColorPicker);
 }
 function createEraserButton() {
     var eraserButton = document.createElement("button");
     eraserButton.innerText = "make me erase woohoo";
 
-    eraserButton.addEventListener("mousedown", () => (ColorPicked = "erase"));
+    eraserButton.addEventListener("mousedown", () => ColorPicked = "erase");
 
-    document.getElementById("buttons").appendChild(eraserButton);
+    ButtonsDiv.appendChild(eraserButton);
 }
 
 function colorManager(colorPicked) {
     if (colorPicked == "erase") 
-        return BackgroundColor
+    return BackgroundColor
 
     if (colorPicked != "rainbow") 
-        return colorPicked
+    return colorPicked
 
     // Generate random color and return it
     var red = Math.floor(Math.random() * 255);
     var green = Math.floor(Math.random() * 255);
     var blue = Math.floor(Math.random() * 255);
 
-    return "rgb(" + red + "," + green + "," + blue + ")";
+    return "rgb(" + red + ", " + green + ", " + blue + ")";
 }
 
 // Actions
-function resetCanvas() {
-    var canvas = document.querySelector("#canvas")
-    var dots = canvas.querySelectorAll("div")
 
-    for (let index = 0; index < dots.length; index++) {
-        dots[index].style.backgroundColor = BackgroundColor
-    }
+function resetCanvas() {
+    var dots = CanvasDiv.querySelectorAll("div")
+
+    for (let index = 0; index < dots.length; index++) 
+    dots[index].style.backgroundColor = BackgroundColor
+}
+
+function changeBackground(newBackgroundColor){
+    var dots = CanvasDiv.querySelectorAll("div")
+
+    for (let index = 0; index < dots.length; index++) 
+    if (dots[index].style.backgroundColor === BackgroundColor) 
+    dots[index].style.backgroundColor = newBackgroundColor
+}
+
+function htmlToRGB(color){
+    const red = parseInt(color.substring(1, 3), 16);
+    const green = parseInt(color.substring(3, 5), 16);
+    const blue = parseInt(color.substring(5, 7), 16);
+
+    return "rgb(" + red + ", " + green + ", " + blue + ")";
 }
