@@ -26,12 +26,15 @@ function createUI() {
     createCanvas(16,25)
 
     objectsInButtonsDiv=[
-        // Brush and Background Color Picker
+        // Brush and Background Color Picker plus labels
+        brushColorPickerLabelObject(),
         brushColorPickerObject(),
+        backgroundColorPickerLabelObject(),
         backgroundColorPickerObject(),
+        emptySpaceObject(), //temporary
         // Buttons
         resetButtonObject(),
-        ranbowColorButtonObject(),
+        ranbomColorButtonObject(),
         eraserButtonObject()
     ]
     objectsInButtonsDiv.forEach(domObject => {
@@ -47,7 +50,7 @@ function createCanvas(numOfDots, dotSize) {
             CanvasDiv.appendChild(dotObject(dotSize));
 }
 
-// Button and Color Picker Objects
+// Dots for canvas object
 function dotObject(size) {
     var dot = document.createElement("div");
 
@@ -61,13 +64,22 @@ function dotObject(size) {
     return dot;
 }
 
-function resetButtonObject() {
-    var resetButton = document.createElement("button");
-    resetButton.innerText = "reset the dang square";
-    resetButton.addEventListener("mousedown", () => resetCanvas());
+// Color Picker Labels
+function brushColorPickerLabelObject() {
+    var brushColorPickerLabel = document.createElement("p");
+    brushColorPickerLabel.innerText = "change color of brush:";
 
-    return resetButton;
+    return brushColorPickerLabel;
 }
+
+function backgroundColorPickerLabelObject() {
+    var backgroundColorPickerLabel = document.createElement("p");
+    backgroundColorPickerLabel.innerText = "change color of background:";
+
+    return backgroundColorPickerLabel;
+}
+
+// Color Picker Objects
 function brushColorPickerObject() {
     var brushColorPicker = document.createElement("input");
     brushColorPicker.onchange = "colorSelected(this)";
@@ -79,7 +91,21 @@ function brushColorPickerObject() {
 
     return brushColorPicker;
 }
-function ranbowColorButtonObject() {
+//Empty Space (temp)
+function emptySpaceObject() {
+    var emptySpaceObject = document.createElement("p");
+    return emptySpaceObject;
+}
+
+// Buttons Objects
+function resetButtonObject() {
+    var resetButton = document.createElement("button");
+    resetButton.innerText = "reset the dang square";
+    resetButton.addEventListener("mousedown", () => resetCanvas());
+
+    return resetButton;
+}
+function ranbomColorButtonObject() {
     var randomColorButton = document.createElement("button");
     randomColorButton.innerText = "make me a random color woohoo";
 
