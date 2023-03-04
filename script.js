@@ -1,33 +1,54 @@
-// Global Variables
-var ColorPicked = "rainbow";
+/* Etch and Sketch script:
+    * Global variables are meant to store user variables that change over the course of usage.
+    *
+    * Create functions create each part of the UI including buttons, canvas, sliders, and HTML color picker blah blah blah:
+    * - Each object function contains an action listener and innerText as label. 
+    * - Each object function returns the object for the createUI function to append to it's respective div.
+    *
+    * Other things to note:
+    * - When the background color changes, 
+    *   it has to be converted to RGB values for the change backgroud color 
+    *   to compare newBackgroundColor's value and current background color's value.
+    * */
+
+    // Global Variables
+var ColorPicked = "random";
 var BackgroundColor = "white";
-var ButtonsDiv = document.getElementById("buttons")
+// Global Accessible DOM elements
 var CanvasDiv = document.getElementById("canvas")
+var ButtonsDiv = document.getElementById("buttons")
 
-// Calling Creaction Functions
-createCanvas(16,25);
-createButtons();
+createUI()
 
-// Create UI
+function createUI() {
+    // Default layout of canvas is 16x16 
+    // Default size of each dot is 25 pixels
+    createCanvas(16,25)
+
+    objectsInButtonsDiv=[
+        // Brush and Background Color Picker
+        brushColorPickerObject(),
+        backgroundColorPickerObject(),
+        // Buttons
+        resetButtonObject(),
+        ranbowColorButtonObject(),
+        eraserButtonObject()
+    ]
+    objectsInButtonsDiv.forEach(domObject => {
+        ButtonsDiv.appendChild(domObject)
+    });
+}
+
+// Create Default Canvas
 function createCanvas(numOfDots, dotSize) {
-    // Y-axis
-    for (let index = 0; index < numOfDots; index++) {
-        // X-axis
-        for (let index = 0; index < numOfDots; index++) {
-            createDot(dotSize);
-        }
-    }
+    // Y-axis for the first loop, X-axis for the second loop
+    for (let index = 0; index < numOfDots; index++) 
+        for (let index = 0; index < numOfDots; index++) 
+            CanvasDiv.appendChild(dotObject(dotSize));
 }
 
-function createButtons() {
-    createResetButton();
-    createBrushColorPicker();
-    createBackgroundColorPicker();
-    createRanbowColorButton();
-    createEraserButton();
-}
-
-function createDot(size) {
+// Button and Color Picker Objects
+function dotObject(size) {
     var dot = document.createElement("div");
 
     dot.style.width = size+"px";
@@ -35,21 +56,19 @@ function createDot(size) {
     dot.style.backgroundColor = BackgroundColor;
     dot.class = "dot";
 
-    dot.addEventListener("mouseover", () => {
-        dot.style.backgroundColor = colorManager(ColorPicked);
-    });
+    dot.addEventListener("mouseover", () => {dot.style.backgroundColor = colorManager(ColorPicked)});
 
-    CanvasDiv.appendChild(dot);
+    return dot;
 }
 
-function createResetButton() {
-    var changeColorButton = document.createElement("button");
-    changeColorButton.innerText = "reset the dang square";
-    changeColorButton.addEventListener("mousedown", () => resetCanvas());
+function resetButtonObject() {
+    var resetButton = document.createElement("button");
+    resetButton.innerText = "reset the dang square";
+    resetButton.addEventListener("mousedown", () => resetCanvas());
 
-    ButtonsDiv.appendChild(changeColorButton);
+    return resetButton;
 }
-function createBrushColorPicker() {
+function brushColorPickerObject() {
     var brushColorPicker = document.createElement("input");
     brushColorPicker.onchange = "colorSelected(this)";
     brushColorPicker.type = "color";
@@ -58,17 +77,17 @@ function createBrushColorPicker() {
         ColorPicked = event.target.value;
     };
 
-    ButtonsDiv.appendChild(brushColorPicker);
+    return brushColorPicker;
 }
-function createRanbowColorButton() {
-    var rainbowColorButton = document.createElement("button");
-    rainbowColorButton.innerText = "make me rainbow woohoo";
+function ranbowColorButtonObject() {
+    var randomColorButton = document.createElement("button");
+    randomColorButton.innerText = "make me a random color woohoo";
 
-    rainbowColorButton.addEventListener("mousedown", () => ColorPicked = "rainbow");
+    randomColorButton.addEventListener("mousedown", () => ColorPicked = "random");
 
-    ButtonsDiv.appendChild(rainbowColorButton);
+    return randomColorButton;
 }
-function createBackgroundColorPicker() {
+function backgroundColorPickerObject() {
     var backgroundColorPicker = document.createElement("input");
     backgroundColorPicker.onchange = "colorSelected(this)";
     backgroundColorPicker.type = "color";
@@ -79,23 +98,24 @@ function createBackgroundColorPicker() {
         BackgroundColor = htmlToRGB(backgroundColorPicked)
     }
 
-    ButtonsDiv.appendChild(backgroundColorPicker);
+    return backgroundColorPicker;
 }
-function createEraserButton() {
+function eraserButtonObject() {
     var eraserButton = document.createElement("button");
     eraserButton.innerText = "make me erase woohoo";
 
     eraserButton.addEventListener("mousedown", () => ColorPicked = "erase");
 
-    ButtonsDiv.appendChild(eraserButton);
+    return eraserButton;
 }
 
+// Managers
 function colorManager(colorPicked) {
     if (colorPicked == "erase") 
-    return BackgroundColor
+        return BackgroundColor
 
-    if (colorPicked != "rainbow") 
-    return colorPicked
+    if (colorPicked != "random") 
+        return colorPicked
 
     // Generate random color and return it
     var red = Math.floor(Math.random() * 255);
@@ -106,22 +126,22 @@ function colorManager(colorPicked) {
 }
 
 // Actions
-
 function resetCanvas() {
     var dots = CanvasDiv.querySelectorAll("div")
 
     for (let index = 0; index < dots.length; index++) 
-    dots[index].style.backgroundColor = BackgroundColor
+        dots[index].style.backgroundColor = BackgroundColor
 }
 
 function changeBackground(newBackgroundColor){
     var dots = CanvasDiv.querySelectorAll("div")
 
     for (let index = 0; index < dots.length; index++) 
-    if (dots[index].style.backgroundColor === BackgroundColor) 
-    dots[index].style.backgroundColor = newBackgroundColor
+        if (dots[index].style.backgroundColor === BackgroundColor) 
+            dots[index].style.backgroundColor = newBackgroundColor
 }
 
+// Conversion
 function htmlToRGB(color){
     const red = parseInt(color.substring(1, 3), 16);
     const green = parseInt(color.substring(3, 5), 16);
