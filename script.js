@@ -17,6 +17,8 @@ var BackgroundColor = "white";
 // Global Accessible DOM elements
 var CanvasDiv = document.getElementById("canvas")
 var ButtonsDiv = document.getElementById("buttons")
+// MousedownOnCanvas
+var MousedownOnCanvas = false
 
 createUI()
 
@@ -44,10 +46,19 @@ function createUI() {
 
 // Create Default Canvas
 function createCanvas(numOfDots, dotSize) {
-    // Y-axis for the first loop, X-axis for the second loop
+    
+    // Adds dots, Y-axis for the first loop, X-axis for the second loop
     for (let index = 0; index < numOfDots; index++) 
         for (let index = 0; index < numOfDots; index++) 
             CanvasDiv.appendChild(dotObject(dotSize));
+
+    // Creates action listeners so the colors only change when mousedown
+    CanvasDiv.addEventListener("mousedown", () =>{
+        MousedownOnCanvas = true
+    })
+    CanvasDiv.addEventListener("mouseup", () =>{
+        MousedownOnCanvas = false
+    })
 }
 
 // Dots for canvas object
@@ -59,7 +70,10 @@ function dotObject(size) {
     dot.style.backgroundColor = BackgroundColor;
     dot.class = "dot";
 
-    dot.addEventListener("mouseover", () => {dot.style.backgroundColor = colorManager(ColorPicked)});
+    dot.addEventListener("mouseover", () => {
+        if (MousedownOnCanvas)
+            dot.style.backgroundColor=colorManager(ColorPicked)
+    })
 
     return dot;
 }
@@ -109,7 +123,9 @@ function ranbomColorButtonObject() {
     var randomColorButton = document.createElement("button");
     randomColorButton.innerText = "make me a random color woohoo";
 
-    randomColorButton.addEventListener("mousedown", () => ColorPicked = "random");
+    randomColorButton.addEventListener("mousedown", () => {
+        ColorPicked = "random"
+    })
 
     return randomColorButton;
 }
@@ -130,7 +146,9 @@ function eraserButtonObject() {
     var eraserButton = document.createElement("button");
     eraserButton.innerText = "make me erase woohoo";
 
-    eraserButton.addEventListener("mousedown", () => ColorPicked = "erase");
+    eraserButton.addEventListener("mousedown", () => {
+        ColorPicked = "erase"
+    });
 
     return eraserButton;
 }
