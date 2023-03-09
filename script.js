@@ -20,8 +20,8 @@ var MousedownOnCanvas = false
 createUI()
 
 function createUI() {
-    // Default layout of canvas is 16x16, size of each dot is 25 pixels
-    createCanvas(16, 25)
+    // Default layout of canvas is 16x16
+    createCanvas(16)
 
     objectsInButtonsDiv = [
         canvasDimensionsLabelObject(),
@@ -41,12 +41,12 @@ function createUI() {
 }
 
 // Create Default Canvas
-function createCanvas(numOfDots, dotSize) {
+function createCanvas(dimensions) {
 
     // Adds dots, Y-axis for the first loop, X-axis for the second loop
-    for (let index = 0; index < numOfDots; index++)
-        for (let index = 0; index < numOfDots; index++)
-            CanvasDiv.appendChild(dot(dotSize));
+    for (let index = 0; index < dimensions; index++)
+        for (let index = 0; index < dimensions; index++)
+            CanvasDiv.appendChild(dot(dimensions));
 
     // Creates action listeners so the colors only change when mousedown
     CanvasDiv.addEventListener("mousedown", () => {
@@ -58,11 +58,13 @@ function createCanvas(numOfDots, dotSize) {
 }
 
 // Dots for canvas object
-function dot(size) {
+function dot(dimensionsOfCanvas) {
     var dot = document.createElement("div");
 
-    dot.style.width = size + "px";
-    dot.style.height = size + "px";
+    var length = 100 / dimensionsOfCanvas;
+
+    dot.style.width = length.toString() + "%"
+    dot.style.height = length.toString() + "%"
     dot.style.backgroundColor = BackgroundColor;
     dot.class = "dot";
 
@@ -208,9 +210,11 @@ function changeBackground(newBackgroundColor) {
 }
 
 function changeDimensionsOfCanvas(newDimensions) {
+    while (CanvasDiv.firstChild) 
+        CanvasDiv.removeChild(CanvasDiv.firstChild)
 
+    createCanvas(newDimensions)
 }
-
 // Conversion
 function htmlToRGB(color) {
     const red = parseInt(color.substring(1, 3), 16);
