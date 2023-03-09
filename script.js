@@ -1,84 +1,104 @@
 /* Etch and Sketch script:
-    * Global variables are meant to store user variables that change over the course of usage.
-    *
-    * Create functions create each part of the UI including buttons, canvas, sliders, and HTML color picker blah blah blah:
-    * - Each object function contains an action listener and innerText as label. 
-    * - Each object function returns the object for the createUI function to append to it's respective div.
-    *
-    * Other things to note:
-    * - When the background color changes, 
-    *   it has to be converted to RGB values for the change backgroud color 
-    *   to compare newBackgroundColor's value and current background color's value.
-    * */
+ * Global variables are meant to store user variables that change over the course of usage.
+ *
+ * Create functions create each part of the UI including buttons, canvas, sliders, and HTML color picker blah blah blah:
+ * - Each object function contains an action listener and innerText as label. 
+ * - Each object function returns the object for the createUI function to append to it's respective div.
+ *
+ * Other things to note:
+ * - When the background color changes, 
+ *   it has to be converted to RGB values for the change backgroud color 
+ *   to compare newBackgroundColor's value and current background color's value.
+ * */
 
-    // Global Variables
 var ColorPicked = "random";
 var BackgroundColor = "white";
-// Global Accessible DOM elements
 var CanvasDiv = document.getElementById("canvas")
 var ButtonsDiv = document.getElementById("buttons")
-// MousedownOnCanvas
 var MousedownOnCanvas = false
 
 createUI()
 
 function createUI() {
-    // Default layout of canvas is 16x16 
-    // Default size of each dot is 25 pixels
-    createCanvas(16,25)
+    // Default layout of canvas is 16x16, size of each dot is 25 pixels
+    createCanvas(16, 25)
 
-    objectsInButtonsDiv=[
-        // Brush and Background Color Picker plus labels
+    objectsInButtonsDiv = [
+        canvasDimensionsLabelObject(),
+        canvasDimensionsRangeSliderObject(),
         brushColorPickerLabelObject(),
         brushColorPickerObject(),
         backgroundColorPickerLabelObject(),
         backgroundColorPickerObject(),
-        emptySpaceObject(), //temporary
-        // Buttons
+        emptySpace(), //temporary
         resetButtonObject(),
         ranbomColorButtonObject(),
         eraserButtonObject()
     ]
-    objectsInButtonsDiv.forEach(domObject => {
-        ButtonsDiv.appendChild(domObject)
+    objectsInButtonsDiv.forEach(dom => {
+        ButtonsDiv.appendChild(dom)
     });
 }
 
 // Create Default Canvas
 function createCanvas(numOfDots, dotSize) {
-    
+
     // Adds dots, Y-axis for the first loop, X-axis for the second loop
-    for (let index = 0; index < numOfDots; index++) 
-        for (let index = 0; index < numOfDots; index++) 
-            CanvasDiv.appendChild(dotObject(dotSize));
+    for (let index = 0; index < numOfDots; index++)
+        for (let index = 0; index < numOfDots; index++)
+            CanvasDiv.appendChild(dot(dotSize));
 
     // Creates action listeners so the colors only change when mousedown
-    CanvasDiv.addEventListener("mousedown", () =>{
+    CanvasDiv.addEventListener("mousedown", () => {
         MousedownOnCanvas = true
     })
-    CanvasDiv.addEventListener("mouseup", () =>{
+    CanvasDiv.addEventListener("mouseup", () => {
         MousedownOnCanvas = false
     })
 }
 
 // Dots for canvas object
-function dotObject(size) {
+function dot(size) {
     var dot = document.createElement("div");
 
-    dot.style.width = size+"px";
-    dot.style.height = size+"px";
+    dot.style.width = size + "px";
+    dot.style.height = size + "px";
     dot.style.backgroundColor = BackgroundColor;
     dot.class = "dot";
 
     dot.addEventListener("mouseover", () => {
         if (MousedownOnCanvas)
-            dot.style.backgroundColor=colorManager(ColorPicked)
+            dot.style.backgroundColor = colorManager(ColorPicked)
     })
 
     return dot;
 }
 
-// Color Picker Labels
+// Canvas Size Changer, Labels, Color Picker/Finders
+function canvasDimensionsLabelObject() {
+    var label = document.createElement("p");
+    label.id = "canvasDimensionsLabel"
+    label.innerText = "change dimensions of canvas: 16"
+
+    return label;
+}
+
+function canvasDimensionsRangeSliderObject() {
+    var canvasSizeChanger = document.createElement("input");
+    canvasSizeChanger.type = "range"
+    canvasSizeChanger.min = "1"
+    canvasSizeChanger.max = "56"
+    canvasSizeChanger.value = "16"
+    canvasSizeChanger.id = "canvasSizeChanger"
+
+    canvasSizeChanger.oninput = () => {
+        document.getElementById("canvasDimensionsLabel").innerText = "change dimensions of canvas: " + canvasSizeChanger.value;
+        changeDimensionsOfCanvas(canvasSizeChanger.value)
+    }
+
+    return canvasSizeChanger;
+}
+
 function brushColorPickerLabelObject() {
     var brushColorPickerLabel = document.createElement("p");
     brushColorPickerLabel.innerText = "change color of brush:";
@@ -93,7 +113,6 @@ function backgroundColorPickerLabelObject() {
     return backgroundColorPickerLabel;
 }
 
-// Color Picker Objects
 function brushColorPickerObject() {
     var brushColorPicker = document.createElement("input");
     brushColorPicker.onchange = "colorSelected(this)";
@@ -106,12 +125,12 @@ function brushColorPickerObject() {
     return brushColorPicker;
 }
 //Empty Space (temp)
-function emptySpaceObject() {
-    var emptySpaceObject = document.createElement("p");
-    return emptySpaceObject;
+function emptySpace() {
+    var emptySpace = document.createElement("p");
+    return emptySpace;
 }
 
-// Buttons Objects
+// Buttons
 function resetButtonObject() {
     var resetButton = document.createElement("button");
     resetButton.innerText = "reset the dang square";
@@ -119,6 +138,7 @@ function resetButtonObject() {
 
     return resetButton;
 }
+
 function ranbomColorButtonObject() {
     var randomColorButton = document.createElement("button");
     randomColorButton.innerText = "make me a random color woohoo";
@@ -129,6 +149,7 @@ function ranbomColorButtonObject() {
 
     return randomColorButton;
 }
+
 function backgroundColorPickerObject() {
     var backgroundColorPicker = document.createElement("input");
     backgroundColorPicker.onchange = "colorSelected(this)";
@@ -142,6 +163,7 @@ function backgroundColorPickerObject() {
 
     return backgroundColorPicker;
 }
+
 function eraserButtonObject() {
     var eraserButton = document.createElement("button");
     eraserButton.innerText = "make me erase woohoo";
@@ -155,10 +177,10 @@ function eraserButtonObject() {
 
 // Managers
 function colorManager(colorPicked) {
-    if (colorPicked == "erase") 
+    if (colorPicked == "erase")
         return BackgroundColor
 
-    if (colorPicked != "random") 
+    if (colorPicked != "random")
         return colorPicked
 
     // Generate random color and return it
@@ -173,20 +195,24 @@ function colorManager(colorPicked) {
 function resetCanvas() {
     var dots = CanvasDiv.querySelectorAll("div")
 
-    for (let index = 0; index < dots.length; index++) 
+    for (let index = 0; index < dots.length; index++)
         dots[index].style.backgroundColor = BackgroundColor
 }
 
-function changeBackground(newBackgroundColor){
+function changeBackground(newBackgroundColor) {
     var dots = CanvasDiv.querySelectorAll("div")
 
-    for (let index = 0; index < dots.length; index++) 
-        if (dots[index].style.backgroundColor === BackgroundColor) 
+    for (let index = 0; index < dots.length; index++)
+        if (dots[index].style.backgroundColor === BackgroundColor)
             dots[index].style.backgroundColor = newBackgroundColor
 }
 
+function changeDimensionsOfCanvas(newDimensions) {
+
+}
+
 // Conversion
-function htmlToRGB(color){
+function htmlToRGB(color) {
     const red = parseInt(color.substring(1, 3), 16);
     const green = parseInt(color.substring(3, 5), 16);
     const blue = parseInt(color.substring(5, 7), 16);
