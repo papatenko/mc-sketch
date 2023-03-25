@@ -8,17 +8,21 @@
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
+    background: grey;
 }
 
 #left-side {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+    background: blue;
 }
 
 #right-side {
     display: flex;
     flex-wrap: wrap;
-
+    flex-direction: column;
+    background: red;
 }
 
 #canvas {

@@ -152,7 +152,7 @@ function emptySpace() {
 // Buttons
 function resetButtonObject() {
     var resetButton = document.createElement("button");
-    resetButton.innerText = "reset the dang square";
+    resetButton.innerText = "reset the dang canvas";
     resetButton.addEventListener("mousedown", () => resetCanvas());
 
     return resetButton;
@@ -160,7 +160,7 @@ function resetButtonObject() {
 
 function ranbomColorButtonObject() {
     var randomColorButton = document.createElement("button");
-    randomColorButton.innerText = "make me a random color woohoo";
+    randomColorButton.innerText = "rainbow mode";
 
     randomColorButton.addEventListener("mousedown", () => {
         ColorPicked = "random"
@@ -185,7 +185,7 @@ function backgroundColorPickerObject() {
 
 function eraserButtonObject() {
     var eraserButton = document.createElement("button");
-    eraserButton.innerText = "make me erase woohoo";
+    eraserButton.innerText = "erase me plz :D";
 
     eraserButton.addEventListener("mousedown", () => {
         ColorPicked = "erase"
