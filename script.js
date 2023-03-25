@@ -11,11 +11,16 @@
  *   to compare newBackgroundColor's value and current background color's value.
  * */
 
+//Global settings
 var ColorPicked = "random";
 var BackgroundColor = "white";
-var CanvasDiv = document.getElementById("canvas")
-var ButtonsDiv = document.getElementById("buttons")
 var MousedownOnCanvas = false
+
+// Divs
+var SlidersDiv = document.getElementById("slider")
+var CanvasDiv = document.getElementById("canvas")
+var ColorPickersDiv = document.getElementById("color-pickers")
+var ButtonsDiv = document.getElementById("buttons")
 
 createUI()
 
@@ -23,19 +28,31 @@ function createUI() {
     // Default layout of canvas is 16x16
     createCanvas(16)
 
-    objectsInButtonsDiv = [
+    // Initilizes all dom elements into arrays  
+    objectsSlidersDiv = [
         canvasDimensionsLabelObject(),
-        canvasDimensionsRangeSliderObject(),
+        canvasDimensionsRangeSliderObject()
+    ]
+    objectsColorPickersDiv = [
         brushColorPickerLabelObject(),
         brushColorPickerObject(),
         backgroundColorPickerLabelObject(),
-        backgroundColorPickerObject(),
-        emptySpace(), //temporary
+        backgroundColorPickerObject()
+    ]
+    objectsButtonsDiv = [
         resetButtonObject(),
         ranbomColorButtonObject(),
         eraserButtonObject()
     ]
-    objectsInButtonsDiv.forEach(dom => {
+
+    // Appends all all dom elements to respective dom element
+    objectsSlidersDiv.forEach(dom => {
+        SlidersDiv.appendChild(dom)
+    });
+    objectsColorPickersDiv.forEach(dom => {
+        ColorPickersDiv.appendChild(dom)
+    });
+    objectsButtonsDiv.forEach(dom => {
         ButtonsDiv.appendChild(dom)
     });
 }
@@ -210,7 +227,7 @@ function changeBackground(newBackgroundColor) {
 }
 
 function changeDimensionsOfCanvas(newDimensions) {
-    while (CanvasDiv.firstChild) 
+    while (CanvasDiv.firstChild)
         CanvasDiv.removeChild(CanvasDiv.firstChild)
 
     createCanvas(newDimensions)

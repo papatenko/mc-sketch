@@ -1,3 +1,26 @@
+#header {
+    display: flex;
+    justify-content: center;
+}
+
+#ui {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#left-side {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#right-side {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
 #canvas {
     display: flex;
     flex-wrap: wrap;

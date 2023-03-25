@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>draw a pp or something</title>
-        <link href="style.css" rel="stylesheet">
-    </head>
-    <body >
-        <h1 id="header">Start drawing or something</h1>
-        <div id="canvas" ondragstart="return false;" ondrop="return false;">
-            <!-- Canvas created in javascript -->
-        </div>
-        <div id="buttons">
-            <!-- Buttons created in javascript -->
-        </div>
-        <script src="script.js"></script>
 
-    </body>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>draw a pp or something</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header">
+        <h1 id="header">Start drawing or something</h1>
+    </div>
+    <!-- Split into left and right containers to spread UI elements more efficiently-->
+    <!-- (groupts together into one column in mobile mode)-->
+    <div id="ui">
+        <div id="left-side">
+            <div id="slider">
+                <!-- Size Change/Slider created in script.js file -->
+            </div>
+            <div id="color-pickers">
+                <!-- Brush and Background color pickers created in script.js file -->
+            </div>
+        </div>
+        <div id="right-side">
+            <div id="canvas" ondragstart="return false;" ondrop="return false;">
+                <!-- Canvas created in script.js file -->
+            </div>
+            <div id="buttons">
+                <!-- Buttons created in script.js file -->
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
 </html>
