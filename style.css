@@ -11,12 +11,12 @@
     /* background: grey; */
 }
 
-#left-flex, #right-flex {
+#left, #right {
     width: 26.5rem;
     height: 26.5rem;
 }
 
-#left-flex {
+#left {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -26,12 +26,9 @@
     /* background: blue; */
 }
 
-#center-flex {
-
-}
-
 #canvas {
     display: flex;
+    order: 2;
     flex-wrap: wrap;
     width: 25rem;
     height: 25rem;
@@ -39,8 +36,9 @@
     padding: 1.5rem;
 }
 
-#right-flex {
+#right {
     display: flex;
+    order: 3;
     /* background: red; */
     justify-content: space-evenly;
 }
@@ -50,3 +48,31 @@
     align-items: center;
     justify-content: space-evenly;
 }
+
+@media (max-width: 700px) {
+  #ui {
+    height: auto;
+    flex-wrap: wrap;
+  }
+  
+  #left, #center, #right {
+    position: relative;
+    height: auto;
+  }
+
+  #left {
+      order: 2;
+  }
+
+  #center {
+      order: 1;
+  }
+  #right {
+      order: 3;
+  }
+
+  #buttons {
+      gap: 1rem;
+  }
+}
+
