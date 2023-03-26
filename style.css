@@ -8,31 +8,26 @@
     justify-content: center;
     padding: 1rem;
     gap: 1rem;
-    background: grey;
+    /* background: grey; */
 }
 
 #left-flex, #right-flex {
-    width: 25rem;
-    height: 25rem;
+    width: 26.5rem;
+    height: 26.5rem;
 }
 
 #left-flex {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    background: blue;
+    justify-content: space-evenly;
+    text-align: center;
+    /* background: blue; */
 }
 
 #center-flex {
 
-}
-
-#right-flex {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    background: red;
 }
 
 #canvas {
@@ -42,4 +37,16 @@
     height: 25rem;
     background: black;
     padding: 1.5rem;
+}
+
+#right-flex {
+    display: flex;
+    /* background: red; */
+    justify-content: space-evenly;
+}
+#buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
