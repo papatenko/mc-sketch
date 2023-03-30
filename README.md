@@ -1,13 +1,16 @@
 # mc-sketch
-## Roadmap & Features
+## Roadmap 
 - [x] Brush Color Picker
 - [x] Background Color Picker
 - [x] Eraser
 - [x] Random Color Generator
 - [x] Change canvas size using slider
+- [ ] Make it work on mobile
+- [ ] Minecraft Theme
+## Possible features 
+- [ ] Add links to socials and source code
 - [ ] Save canvas as JPEG
 - [ ] Color Extractor (finds the color from a specific dot)
-- [ ] Minecraft Theme
 
 ## Why I'm making this
 `TheOdinProject` ofc. 
