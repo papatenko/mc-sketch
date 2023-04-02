@@ -66,18 +66,21 @@ function createCanvas(dimensions) {
             CanvasDiv.appendChild(dot(dimensions));
 
     // Creates action listeners so the colors only change when mousedown
-    CanvasDiv.addEventListener("mousedown", () => {
-        MousedownOnCanvas = true
-    })
-    CanvasDiv.addEventListener("mouseup", () => {
-        MousedownOnCanvas = false
+    CanvasDiv.addEventListener("mousedown", () => MousedownOnCanvas = true)
+    CanvasDiv.addEventListener("mouseup", () => MousedownOnCanvas = false)
+    CanvasDiv.addEventListener("touchmove", (e) => {
+        e.preventDefault()
+        var touch = e.touches[0]
+        var targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
+        if (targetElement.class === "dot") {
+            targetElement.style.backgroundColor = colorManager(ColorPicked)
+        }
     })
 }
 
 // Dots for canvas object
 function dot(dimensionsOfCanvas) {
     var dot = document.createElement("div");
-
     var length = 100 / dimensionsOfCanvas;
 
     dot.style.width = length.toString() + "%"
@@ -89,10 +92,13 @@ function dot(dimensionsOfCanvas) {
         if (MousedownOnCanvas)
             dot.style.backgroundColor = colorManager(ColorPicked)
     })
-
+    // dot.addEventListener("touchmove", (e) => {
+    //     e.preventDefault()
+    //     if (MousedownOnCanvas)
+    //         dot.style.backgroundColor = colorManager(ColorPicked)
+    // })
     return dot;
 }
-
 // Canvas Size Changer, Labels, Color Picker/Finders
 function canvasDimensionsLabelObject() {
     var label = document.createElement("p");
