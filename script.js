@@ -11,8 +11,8 @@
  *   to compare newBackgroundColor's value and current background color's value.
  * */
 
-//Global settings
-var ColorPicked = "random";
+// Default settings
+var ColorPicked = "rgb(255,0,0)"
 var BackgroundColor = "white";
 var MousedownOnCanvas = false
 
@@ -68,6 +68,7 @@ function createCanvas(dimensions) {
     // Creates action listeners so the colors only change when mousedown
     CanvasDiv.addEventListener("mousedown", () => MousedownOnCanvas = true)
     CanvasDiv.addEventListener("mouseup", () => MousedownOnCanvas = false)
+    /* Current Bug: When in rainbow mode, the color doesn't stop chaning when hovering over the same dot */
     CanvasDiv.addEventListener("touchmove", (e) => {
         e.preventDefault()
         var touch = e.touches[0]
@@ -92,11 +93,7 @@ function dot(dimensionsOfCanvas) {
         if (MousedownOnCanvas)
             dot.style.backgroundColor = colorManager(ColorPicked)
     })
-    // dot.addEventListener("touchmove", (e) => {
-    //     e.preventDefault()
-    //     if (MousedownOnCanvas)
-    //         dot.style.backgroundColor = colorManager(ColorPicked)
-    // })
+
     return dot;
 }
 // Canvas Size Changer, Labels, Color Picker/Finders

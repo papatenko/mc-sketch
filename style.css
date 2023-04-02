@@ -74,7 +74,7 @@
   #canvas {
       width: 20rem;
       height: 20rem;
-      padding: 0.5rem;
+      padding: 1.0rem;
   }
   #buttons {
       gap: 1rem;
