@@ -5,7 +5,7 @@
 - [x] Eraser
 - [x] Random Color Generator
 - [x] Change canvas size using slider
-- [ ] Make it work on mobile
+- [x] Make it work on mobile
 - [ ] Minecraft Theme
 ## Possible features 
 - [ ] Add links to socials and source code
