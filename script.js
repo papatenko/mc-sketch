@@ -12,7 +12,7 @@
  * */
 
 // Default settings
-var ColorPicked = "rgb(255,0,0)"
+var ColorPicked = "rainbow"
 var BackgroundColor = "white";
 var MousedownOnCanvas = false
 
@@ -41,61 +41,90 @@ function createUI() {
     ]
     objectsButtonsDiv = [
         resetButtonObject(),
-        ranbomColorButtonObject(),
+        rainbowColorButtonObject(),
         eraserButtonObject()
     ]
 
     // Appends all all dom elements to respective dom element
-    objectsSlidersDiv.forEach(dom => {
-        SlidersDiv.appendChild(dom)
-    });
-    objectsColorPickersDiv.forEach(dom => {
-        ColorPickersDiv.appendChild(dom)
-    });
-    objectsButtonsDiv.forEach(dom => {
-        ButtonsDiv.appendChild(dom)
-    });
+    objectsSlidersDiv.forEach((dom) => SlidersDiv.appendChild(dom));
+    objectsColorPickersDiv.forEach((dom) => ColorPickersDiv.appendChild(dom));
+    objectsButtonsDiv.forEach((dom) => ButtonsDiv.appendChild(dom));
 }
 
-// Create Default Canvas
 function createCanvas(dimensions) {
-
     // Adds dots, Y-axis for the first loop, X-axis for the second loop
     for (let index = 0; index < dimensions; index++)
         for (let index = 0; index < dimensions; index++)
             CanvasDiv.appendChild(dot(dimensions));
 
-    // Creates action listeners so the colors only change when mousedown
-    CanvasDiv.addEventListener("mousedown", () => MousedownOnCanvas = true)
+    CanvasDiv.addEventListener("touchmove", (e) => canvasTouchmoveAction(e))
     CanvasDiv.addEventListener("mouseup", () => MousedownOnCanvas = false)
-    /* Current Bug: When in rainbow mode, the color doesn't stop chaning when hovering over the same dot */
-    CanvasDiv.addEventListener("touchmove", (e) => {
-        e.preventDefault()
-        var touch = e.touches[0]
-        var targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
-        if (targetElement.class === "dot") {
-            targetElement.style.backgroundColor = colorManager(ColorPicked)
-        }
-    })
+    CanvasDiv.addEventListener("mousedown", (e) => canvasMousedownAction(e))
+}
+
+/*
+ * */
+function canvasTouchmoveAction(e) {
+    e.preventDefault()
+    var touch = e.touches[0]
+    var targetElement = document.elementFromPoint(touch.clientX, touch.clientY)
+    var hasColored = targetElement.getAttribute("rainbowColored") === "true"
+
+    if (targetElement.class === "dot" && !hasColored) {
+        targetElement.style.backgroundColor = colorManager(ColorPicked)
+        targetElement.setAttribute("rainbowColored", "true")
+        canvasResetAllOtherElements(targetElement)
+    }
+}
+
+/*
+ * */
+function canvasResetAllOtherElements(targetElement) {
+    var dotElements = CanvasDiv.children
+
+    for (var i = 0; i < dotElements.length; i++)
+        if (targetElement !== dotElements[i])
+            dotElements[i].removeAttribute("rainbowColored");
+}
+
+/*
+ * */
+function canvasMousedownAction(e) {
+    var targetElement = document.elementFromPoint(e.clientX, e.clientY)
+    if (targetElement.class === "dot")
+        targetElement.style.backgroundColor = colorManager(ColorPicked)
+    MousedownOnCanvas = true;
 }
 
 // Dots for canvas object
 function dot(dimensionsOfCanvas) {
-    var dot = document.createElement("div");
-    var length = 100 / dimensionsOfCanvas;
+    var dot = document.createElement("div")
+    var length = 100 / dimensionsOfCanvas
+    var rainbowColored = false
 
     dot.style.width = length.toString() + "%"
     dot.style.height = length.toString() + "%"
-    dot.style.backgroundColor = BackgroundColor;
-    dot.class = "dot";
+    dot.style.backgroundColor = BackgroundColor
+    dot.class = "dot"
 
-    dot.addEventListener("mouseover", () => {
-        if (MousedownOnCanvas)
-            dot.style.backgroundColor = colorManager(ColorPicked)
+    dot.addEventListener("mousemove", () => {
+        dotMousemoveAction(dot, rainbowColored)
+        rainbowColored = true
     })
+    dot.addEventListener("mouseleave", () => rainbowColored = false)
 
     return dot;
 }
+
+function dotMousemoveAction(dot, rainbowColored) {
+    if (!MousedownOnCanvas)
+        return null;
+    if (ColorPicked === "rainbow" && !rainbowColored)
+        dot.style.backgroundColor = colorManager(ColorPicked)
+    if (ColorPicked !== "rainbow")
+        dot.style.backgroundColor = colorManager(ColorPicked)
+}
+
 // Canvas Size Changer, Labels, Color Picker/Finders
 function canvasDimensionsLabelObject() {
     var label = document.createElement("p");
@@ -121,6 +150,13 @@ function canvasDimensionsRangeSliderObject() {
     return canvasSizeChanger;
 }
 
+function changeDimensionsOfCanvas(newDimensions) {
+    while (CanvasDiv.firstChild)
+        CanvasDiv.removeChild(CanvasDiv.firstChild)
+
+    createCanvas(newDimensions)
+}
+
 function brushColorPickerLabelObject() {
     var brushColorPickerLabel = document.createElement("p");
     brushColorPickerLabel.innerText = "change color of brush:";
@@ -140,16 +176,9 @@ function brushColorPickerObject() {
     brushColorPicker.onchange = "colorSelected(this)";
     brushColorPicker.type = "color";
 
-    brushColorPicker.onchange = (event) => {
-        ColorPicked = event.target.value;
-    };
+    brushColorPicker.onchange = (e) => ColorPicked = e.target.value
 
     return brushColorPicker;
-}
-//Empty Space (temp)
-function emptySpace() {
-    var emptySpace = document.createElement("p");
-    return emptySpace;
 }
 
 // Buttons
@@ -161,13 +190,17 @@ function resetButtonObject() {
     return resetButton;
 }
 
-function ranbomColorButtonObject() {
+function resetCanvas() {
+    var dots = CanvasDiv.querySelectorAll("div")
+
+    for (let index = 0; index < dots.length; index++)
+        dots[index].style.backgroundColor = BackgroundColor
+}
+
+function rainbowColorButtonObject() {
     var randomColorButton = document.createElement("button");
     randomColorButton.innerText = "rainbow mode";
-
-    randomColorButton.addEventListener("mousedown", () => {
-        ColorPicked = "random"
-    })
+    randomColorButton.addEventListener("mousedown", () => ColorPicked = "rainbow")
 
     return randomColorButton;
 }
@@ -177,8 +210,8 @@ function backgroundColorPickerObject() {
     backgroundColorPicker.onchange = "colorSelected(this)";
     backgroundColorPicker.type = "color";
 
-    backgroundColorPicker.onchange = (event) => {
-        var backgroundColorPicked = event.target.value
+    backgroundColorPicker.onchange = (e) => {
+        var backgroundColorPicked = e.target.value
         changeBackground(backgroundColorPicked)
         BackgroundColor = htmlToRGB(backgroundColorPicked)
     }
@@ -186,13 +219,26 @@ function backgroundColorPickerObject() {
     return backgroundColorPicker;
 }
 
+function htmlToRGB(color) {
+    const red = parseInt(color.substring(1, 3), 16);
+    const green = parseInt(color.substring(3, 5), 16);
+    const blue = parseInt(color.substring(5, 7), 16);
+
+    return "rgb(" + red + ", " + green + ", " + blue + ")";
+}
+
+function changeBackground(newBackgroundColor) {
+    var dots = CanvasDiv.children
+
+    for (let index = 0; index < dots.length; index++)
+        if (dots[index].style.backgroundColor === BackgroundColor)
+            dots[index].style.backgroundColor = newBackgroundColor
+}
+
 function eraserButtonObject() {
     var eraserButton = document.createElement("button");
     eraserButton.innerText = "erase me plz :D";
-
-    eraserButton.addEventListener("mousedown", () => {
-        ColorPicked = "erase"
-    });
+    eraserButton.addEventListener("mousedown", () => ColorPicked = "erase");
 
     return eraserButton;
 }
@@ -202,44 +248,13 @@ function colorManager(colorPicked) {
     if (colorPicked == "erase")
         return BackgroundColor
 
-    if (colorPicked != "random")
+    if (colorPicked != "rainbow")
         return colorPicked
 
     // Generate random color and return it
     var red = Math.floor(Math.random() * 255);
     var green = Math.floor(Math.random() * 255);
     var blue = Math.floor(Math.random() * 255);
-
-    return "rgb(" + red + ", " + green + ", " + blue + ")";
-}
-
-// Actions
-function resetCanvas() {
-    var dots = CanvasDiv.querySelectorAll("div")
-
-    for (let index = 0; index < dots.length; index++)
-        dots[index].style.backgroundColor = BackgroundColor
-}
-
-function changeBackground(newBackgroundColor) {
-    var dots = CanvasDiv.querySelectorAll("div")
-
-    for (let index = 0; index < dots.length; index++)
-        if (dots[index].style.backgroundColor === BackgroundColor)
-            dots[index].style.backgroundColor = newBackgroundColor
-}
-
-function changeDimensionsOfCanvas(newDimensions) {
-    while (CanvasDiv.firstChild)
-        CanvasDiv.removeChild(CanvasDiv.firstChild)
-
-    createCanvas(newDimensions)
-}
-// Conversion
-function htmlToRGB(color) {
-    const red = parseInt(color.substring(1, 3), 16);
-    const green = parseInt(color.substring(3, 5), 16);
-    const blue = parseInt(color.substring(5, 7), 16);
 
     return "rgb(" + red + ", " + green + ", " + blue + ")";
 }

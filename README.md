@@ -6,6 +6,7 @@
 - [x] Random Color Generator
 - [x] Change canvas size using slider
 - [x] Make it work on mobile
+- [ ] Gallery
 - [ ] Minecraft Theme
 ## Possible features 
 - [ ] Add links to socials and source code
