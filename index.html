@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>draw a pp or something</title>
@@ -10,9 +5,11 @@
 </head>
 
 <body>
-    <div id="header">
-        <h1 id="header">Start drawing or something</h1>
-    </div>
+    <header>
+        <div id="header-content">
+            <h1 id="header">Start drawing or something</h1>
+        </div>
+    </header>
     <!-- Split into left and right containers to spread UI elements more efficiently-->
     <!-- (groupts together into one column in mobile mode)-->
     <div id="ui">
@@ -35,6 +32,18 @@
             </div>
         </div>
     </div>
+    <footer>
+        <div class="footer-content">
+            <span>Copyright @
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+            </span>
+            <span>&nbsp;papatenko&nbsp;</span>
+            <a href="https://github.com/papatenko/mc-sketch"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub logo"></a>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 

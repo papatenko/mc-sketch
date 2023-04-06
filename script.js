@@ -62,7 +62,9 @@ function createCanvas(dimensions) {
     CanvasDiv.addEventListener("mousedown", (e) => canvasMousedownAction(e))
 }
 
-/*
+/* Meant to color the canvas as finger drags across the canvas.
+ *
+ * If statement is there to prevent the brush to continously change colors of each dot when rainbow mode is on. It does this by preventing the color manager from changing the color of the selected dot once it's changed once. 
  * */
 function canvasTouchmoveAction(e) {
     e.preventDefault()
@@ -77,7 +79,7 @@ function canvasTouchmoveAction(e) {
     }
 }
 
-/*
+/* Resets the state of every other dot so they can be colored.
  * */
 function canvasResetAllOtherElements(targetElement) {
     var dotElements = CanvasDiv.children
@@ -87,7 +89,7 @@ function canvasResetAllOtherElements(targetElement) {
             dotElements[i].removeAttribute("rainbowColored");
 }
 
-/*
+/* Grants access to dots action listener while changing the color of the currently selected dot. Makes canvas feel instantanious.
  * */
 function canvasMousedownAction(e) {
     var targetElement = document.elementFromPoint(e.clientX, e.clientY)
