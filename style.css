@@ -1,75 +1,76 @@
 #header-content {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 #ui {
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-    gap: 1rem;
-    /* background: grey; */
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  gap: 1rem;
+  /* background: grey; */
 }
 
-#left, #right {
-    width: 26.5rem;
-    height: 26.5rem;
+#left,
+#right {
+  width: 26.5rem;
+  height: 26.5rem;
 }
 
 #left {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    text-align: center;
-    /* background: blue; */
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  /* background: blue; */
 }
 
 #canvas {
-    display: flex;
-    order: 2;
-    flex-wrap: wrap;
-    width: 25rem;
-    height: 25rem;
-    background: black;
-    padding: 1.5rem;
+  display: flex;
+  order: 2;
+  flex-wrap: wrap;
+  width: 25rem;
+  height: 25rem;
+  background: black;
+  padding: 1.5rem;
 }
 
 #right {
-    display: flex;
-    order: 3;
-    /* background: red; */
-    justify-content: space-evenly;
+  display: flex;
+  order: 3;
+  /* background: red; */
+  justify-content: space-evenly;
 }
 #buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 footer {
-    color: black;
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
+  color: black;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
 }
 
 .footer-content {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 #currentYear {
-    font-weight: bold;
-    margin-left: 5px;
-    margin-right: 5px;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 img {
-    height: 20px;
-    width: auto;
+  height: 20px;
+  width: auto;
 }
 
 @media (max-width: 700px) {
@@ -77,30 +78,31 @@ img {
     height: auto;
     flex-wrap: wrap;
   }
-  
-  #left, #center, #right {
+
+  #left,
+  #center,
+  #right {
     position: relative;
     height: auto;
   }
 
   #left {
-      order: 2;
+    order: 2;
   }
 
   #center {
-      order: 1;
+    order: 1;
   }
   #right {
-      order: 3;
+    order: 3;
   }
 
   #canvas {
-      width: 20rem;
-      height: 20rem;
-      padding: 1.0rem;
+    width: 20rem;
+    height: 20rem;
+    padding: 1rem;
   }
   #buttons {
-      gap: 1rem;
+    gap: 1rem;
   }
 }
-
